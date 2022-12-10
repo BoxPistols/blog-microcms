@@ -1,6 +1,20 @@
+# MicroCMS
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## DevFlow ZeroOne
+
+[MicroCMS Next.js Getting Started](https://document.microcms.io/tutorial/next/next-getting-started)
+
+- npx create-next-app blog-microcms
+- npm install microcms-js-sdk
+- create folder
+  - ./libs
+    - client.js
+
+## Getting Star
+
+ted
 
 First, run the development server:
 
