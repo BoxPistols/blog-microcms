@@ -73,6 +73,7 @@
   max-width: 800px;
 }
 
+/* Card  */
 .card {
   margin: 1rem;
   padding: 1.5rem;
@@ -113,4 +114,14 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+/* Add New */
+.blog {
+  padding: 1em 2em;
+  background: linear-gradient(
+    -45deg,
+    rgba(200, 43, 65, 0.1),
+    rgba(45, 65, 188, 0.1)
+  );
 }
