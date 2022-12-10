@@ -1,3 +1,4 @@
+// INFO: https://blog.microcms.io/microcms-next-jamstack-blog/
 import { client } from "../../libs/client"
 
 export const getStaticProps = async (context) => {
@@ -11,16 +12,6 @@ export const getStaticProps = async (context) => {
   }
 }
 
-export default function BlogId({ blog }) {
-  return (
-    <main>
-      <h2>{blog.title}</h2>
-      <p>{blog.publishedAt}</p>
-      <p>{blog.body}</p>
-    </main>
-  )
-}
-
 export const getStaticPaths = async () => {
   const data = await client.get({ endpoint: "blogs" })
   const paths = data.contents.map((content) => `/blog/${content.id}`)
@@ -28,4 +19,18 @@ export const getStaticPaths = async () => {
     paths,
     fallback: false,
   }
+}
+
+export default function BlogId({ blog }) {
+  return (
+    <main>
+      <h2>{blog.title}</h2>
+      <p>{blog.publishedAt}</p>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `${blog.content}`,
+        }}
+      />
+    </main>
+  )
 }
