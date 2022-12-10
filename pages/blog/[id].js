@@ -1,5 +1,7 @@
 // INFO: https://blog.microcms.io/microcms-next-jamstack-blog/
 import { client } from "../../libs/client"
+import Link from "next/link"
+import styles from "../../styles/Home.module.scss"
 
 export const getStaticProps = async (context) => {
   const id = context.params.id
@@ -23,14 +25,21 @@ export const getStaticPaths = async () => {
 
 export default function BlogId({ blog }) {
   return (
-    <main>
-      <h2>{blog.title}</h2>
-      <p>{blog.publishedAt}</p>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `${blog.content}`,
-        }}
-      />
-    </main>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <h2 className={styles.title}>{blog.title}</h2>
+        <p>{blog.publishedAt}</p>
+        <div
+          className={styles.main_blog}
+          dangerouslySetInnerHTML={{
+            __html: `${blog.content}`,
+          }}
+        />
+        {/* to top */}
+        <Link className={styles.description} href="/">
+          トップに戻る
+        </Link>
+      </main>
+    </div>
   )
 }

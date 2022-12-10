@@ -1,5 +1,5 @@
 import Head from "next/head"
-import styles from "../styles/Home.module.css"
+import styles from "../styles/Home.module.scss"
 import { client } from "../libs/client"
 import Link from "next/link"
 
@@ -37,7 +37,7 @@ export const getStaticProps = async () => {
   const data = await client.get({
     endpoint: "blogs",
   })
-  console.log(data)
+  // console.log(data)
   return {
     props: {
       blog: data.contents,
