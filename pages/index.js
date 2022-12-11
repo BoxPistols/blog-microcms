@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.scss"
 import { client } from "../libs/client"
 import Link from "next/link"
 
-export default function Home({ blog, category }) {
+export default function Home({ blog, category, photo }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,13 +13,8 @@ export default function Home({ blog, category }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>MicroCMS on Next</h1>
-        {/* {data.contents[0].title} */}
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        {/* category */}
         <div className={styles.blog}>
-          {/* category */}
           <ul>
             {category.map((category) => (
               <li key={category.id}>
@@ -27,6 +22,20 @@ export default function Home({ blog, category }) {
               </li>
             ))}
           </ul>
+        </div>
+        <hr />
+        {/* photo */}
+        <div className={styles.photo_gallery}>
+          {photo.map((photo) => (
+            <div key={photo.id}>
+              {/* <Link href={`${photo.id}`}> */}
+              <Link href={`${photo.photo.url}`}>
+                <img src={photo.photo.url} />
+                <br />
+                <div className={styles.photo_figure}>{photo.figure}</div>
+              </Link>
+            </div>
+          ))}
         </div>
         <hr />
         {/* blog */}
@@ -48,10 +57,6 @@ export default function Home({ blog, category }) {
             ))}
           </ul>
         </div>
-        <hr />
-        <div className={styles.blog}>
-          <Link href={`./cat`}>category</Link>
-        </div>
       </main>
     </div>
   )
@@ -63,12 +68,14 @@ export const getStaticProps = async () => {
     endpoint: "blogs",
   })
   const categoryData = await client.get({ endpoint: "categories" })
+  const photoData = await client.get({ endpoint: "photo" })
 
   // console.log(data)
   return {
     props: {
       blog: data.contents,
       category: categoryData.contents,
+      photo: photoData.contents,
     },
   }
 }

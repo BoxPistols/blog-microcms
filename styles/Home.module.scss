@@ -91,3 +91,27 @@
     rgba(45, 65, 188, 0.1)
   );
 }
+
+.photo {
+  &_gallery {
+    display: flex;
+    // flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2vw;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 0.5vw;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5), 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+  }
+  &_figure {
+    text-align: center;
+    margin-top: -1vw;
+    color: dimgray;
+  }
+}

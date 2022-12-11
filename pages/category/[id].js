@@ -3,7 +3,7 @@ import Link from "next/link"
 import { client } from "../../libs/client"
 import styles from "../../styles/Home.module.scss"
 
-export default function CategoryId({ blog }) {
+export default function CategoryId({ blog, photo }) {
   // カテゴリーに紐付いたコンテンツがない場合に表示
   if (blog.length === 0) {
     return (
@@ -19,20 +19,31 @@ export default function CategoryId({ blog }) {
           {blog.map((blog) => (
             <li key={blog.id}>
               <Link href={`/blog/${blog.id}`}>{blog.title}</Link>
-              {/* TODO: Photo gallery */}
+              {/* コンテンツAll View */}
               {/* <div
                 className={styles.main_blog}
                 dangerouslySetInnerHTML={{
                   __html: `${blog.content}`,
                 }}
               /> */}
-
-              {/* <p className="published">
+              <p className="published">
                 {blog.category && `${blog.category.name}`} / {blog.publishedAt}
-              </p> */}
+              </p>
             </li>
           ))}
         </ul>
+        <hr />
+        {/* Photo */}
+        {photo ? "Photo" : "not img"}
+        <div className={styles.photo}>
+          {photo.map((photo) => (
+            <div key={photo.id}>
+              <img src={photo.photo.url} />
+              <br />
+              {photo.figure}
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   )
@@ -52,10 +63,15 @@ export const getStaticProps = async (context) => {
     endpoint: "blogs",
     queries: { filters: `category[equals]${id}` },
   })
+  const photoData = await client.get({
+    endpoint: "photo",
+    queries: { filters: `category[equals]${id}` },
+  })
 
   return {
     props: {
       blog: data.contents,
+      photo: photoData.contents,
     },
   }
 }
