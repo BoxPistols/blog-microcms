@@ -28,7 +28,7 @@ export default function Home({ blog, category, photo }) {
         <div className={styles.blog}>
           <ul>
             <li>
-              <Link href={`/photo/people`}>people</Link>
+              <Link href={`/photo/menu/people`}>people</Link>
             </li>
             <li>
               <Link href={`/photo/food`}>food</Link>
