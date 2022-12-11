@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.scss"
 import { client } from "../libs/client"
 import Link from "next/link"
 
-export default function Home({ blog }) {
+export default function Home({ blog, category, photo }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,16 +13,50 @@ export default function Home({ blog }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>MicroCMS on Next</h1>
-        {/* {data.contents[0].title} */}
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        {/* category */}
+        <div className={styles.blog}>
+          <ul>
+            {category.map((category) => (
+              <li key={category.id}>
+                <Link href={`/category/${category.id}`}>{category.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <hr />
+        <hr />
+        {/* photo */}
+        <div className={styles.photo_gallery}>
+          {photo.map((photo) => (
+            <div key={photo.id}>
+              {/* <Link href={`${photo.photo.url}`}> */}
+              {/* <Link href={`photo/${photo.menu}`}> */}
+              <Link href={`photo/${photo.id}`}>
+                <img src={photo.photo.url} />
+                <br />
+                <div className={styles.photo_figure}>
+                  {photo.figure} / {photo.menu}
+                </div>
+              </Link>
+              {/* menu */}
+            </div>
+          ))}
+        </div>
+        <hr />
+        {/* blog */}
         <div className={styles.blog}>
           <ul>
             {blog.map((blog) => (
               <li key={blog.id}>
                 <Link href={`/blog/${blog.id}`}>{blog.title}</Link>
+                {/* <Link href={blog.title}>
+                  <div
+                    className={styles.main_blog}
+                    dangerouslySetInnerHTML={{
+                      __html: `${blog.content}`,
+                    }}
+                  />
+                </Link> */}
               </li>
             ))}
           </ul>
@@ -37,10 +71,17 @@ export const getStaticProps = async () => {
   const data = await client.get({
     endpoint: "blogs",
   })
+  const categoryData = await client.get({ endpoint: "categories" })
+  const photoData = await client.get({ endpoint: "photos" })
+  const menuData = await client.get({ endpoint: "photos" })
+
   // console.log(data)
   return {
     props: {
       blog: data.contents,
+      category: categoryData.contents,
+      photo: photoData.contents,
+      menu: menuData.contents,
     },
   }
 }
