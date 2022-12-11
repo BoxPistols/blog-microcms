@@ -1,10 +1,11 @@
 ---
 created: 2022-12-11T16:09:51.940Z
-updated: 2022-12-11T16:11:06.534Z
+updated: 2022-12-11T17:14:04.491Z
 assigned: ""
 progress: 0
 tags: []
 started: 2022-12-11T16:11:06.534Z
+completed: 2022-12-11T17:14:04.491Z
 ---
 
 # Photo/Show

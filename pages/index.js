@@ -24,16 +24,21 @@ export default function Home({ blog, category, photo }) {
           </ul>
         </div>
         <hr />
+        <hr />
         {/* photo */}
         <div className={styles.photo_gallery}>
           {photo.map((photo) => (
             <div key={photo.id}>
-              {/* <Link href={`${photo.id}`}> */}
-              <Link href={`${photo.photo.url}`}>
+              {/* <Link href={`${photo.photo.url}`}> */}
+              {/* <Link href={`photo/${photo.menu}`}> */}
+              <Link href={`photo/${photo.id}`}>
                 <img src={photo.photo.url} />
                 <br />
-                <div className={styles.photo_figure}>{photo.figure}</div>
+                <div className={styles.photo_figure}>
+                  {photo.figure} / {photo.menu}
+                </div>
               </Link>
+              {/* menu */}
             </div>
           ))}
         </div>
@@ -44,7 +49,6 @@ export default function Home({ blog, category, photo }) {
             {blog.map((blog) => (
               <li key={blog.id}>
                 <Link href={`/blog/${blog.id}`}>{blog.title}</Link>
-                {/* TODO: Photo gallery */}
                 {/* <Link href={blog.title}>
                   <div
                     className={styles.main_blog}
@@ -69,6 +73,7 @@ export const getStaticProps = async () => {
   })
   const categoryData = await client.get({ endpoint: "categories" })
   const photoData = await client.get({ endpoint: "photos" })
+  const menuData = await client.get({ endpoint: "photos" })
 
   // console.log(data)
   return {
@@ -76,6 +81,7 @@ export const getStaticProps = async () => {
       blog: data.contents,
       category: categoryData.contents,
       photo: photoData.contents,
+      menu: menuData.contents,
     },
   }
 }

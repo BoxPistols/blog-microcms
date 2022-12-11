@@ -1,50 +1,46 @@
-// pages/category/[id].js
-import Link from "next/link"
+// INFO: https://photo.microcms.io/microcms-next-jamstack-photo/
 import { client } from "../../libs/client"
+import Link from "next/link"
 import styles from "../../styles/Home.module.scss"
 
-export default function CategoryId({ photo }) {
-  // カテゴリーに紐付いたコンテンツがない場合に表示
-  // if (photo.length === 0) {
-  //   return (
-  //     <div className={styles.container.posts}>
-  //       <main className={styles.main}>画像がありません</main>
-  //     </div>
-  //   )
-  // }
+export default function PhotoId({ photo }) {
   return (
     <div className={styles.container.posts}>
       <main className={styles.main}>
-        <ul>
-          {photo.map((photo) => (
-            <li key={photo.id}>
-              <Link href={`/photo/${photo.url}`}>{photo.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <h2 className={styles.title}>
+          {photo.id} / {photo.menu}
+        </h2>
+        <p className="category">
+          {photo.categories && `categories:${photo.categories.id}`} / id:
+          {photo.id && `${photo.id}`} / menu:{photo.menu && `${photo.menu}`}
+        </p>
+        <img src={photo.photo.url} />
+        <p className="published">{photo.publishedAt}</p>
+        {/* to top */}
+        <Link className={styles.description} href="/">
+          トップに戻る
+        </Link>
       </main>
     </div>
   )
 }
 
-// 静的生成のためのパスを指定します
-export const getStaticPaths = async () => {
-  const data = await client.get({ endpoint: "photos" })
-  const paths = data.contents.map((content) => `/photo/${content.id}`)
-  return { paths, fallback: false }
-}
-
-// データをテンプレートに受け渡す部分の処理を記述します
 export const getStaticProps = async (context) => {
   const id = context.params.id
-  const data = await client.get({
-    endpoint: "photos",
-    queries: { filters: `category[equals]${id}` },
-  })
+  const data = await client.get({ endpoint: "photos", contentId: id })
 
   return {
     props: {
-      photo: data.contents,
+      photo: data,
     },
+  }
+}
+
+export const getStaticPaths = async () => {
+  const data = await client.get({ endpoint: "photos" })
+  const paths = data.contents.map((content) => `/photo/${content.id}`)
+  return {
+    paths,
+    fallback: false,
   }
 }
