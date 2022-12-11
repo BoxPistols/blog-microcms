@@ -11,12 +11,13 @@ completedColumns:
 
 ## Todo
 
-## In Progress
+- [light-box-gallery](tasks/light-box-gallery.md)
 
-- [画像カテゴリー分け](tasks/画像カテゴリー分け.md)
+## In Progress
 
 ## Done
 
+- [画像カテゴリー分け](tasks/画像カテゴリー分け.md)
 - [photo-show](tasks/photo-show.md)
 - [gallery-photo-top-view](tasks/gallery-photo-top-view.md)
 - [category](tasks/category.md)
