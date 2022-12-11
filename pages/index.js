@@ -68,7 +68,7 @@ export const getStaticProps = async () => {
     endpoint: "blogs",
   })
   const categoryData = await client.get({ endpoint: "categories" })
-  const photoData = await client.get({ endpoint: "photo" })
+  const photoData = await client.get({ endpoint: "photos" })
 
   // console.log(data)
   return {

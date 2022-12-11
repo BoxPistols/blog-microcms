@@ -64,7 +64,7 @@ export const getStaticProps = async (context) => {
     queries: { filters: `category[equals]${id}` },
   })
   const photoData = await client.get({
-    endpoint: "photo",
+    endpoint: "photos",
     queries: { filters: `category[equals]${id}` },
   })
 
