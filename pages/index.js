@@ -24,6 +24,17 @@ export default function Home({ blog, category, photo }) {
           </ul>
         </div>
         <hr />
+        {/* menu */}
+        <div className={styles.blog}>
+          <ul>
+            <li>
+              <Link href={`/photo/people`}>people</Link>
+            </li>
+            <li>
+              <Link href={`/photo/food`}>food</Link>
+            </li>
+          </ul>
+        </div>
         <hr />
         {/* photo */}
         <div className={styles.photo_gallery}>
