@@ -15,6 +15,8 @@ completedColumns:
 
 ## In Progress
 
-- [styling-scss](tasks/styling-scss.md)
+- [category](tasks/category.md)
 
 ## Done
+
+- [styling-scss](tasks/styling-scss.md)
