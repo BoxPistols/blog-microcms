@@ -3,17 +3,17 @@ import Link from "next/link"
 import { client } from "../../../libs/client"
 import styles from "../../../styles/Home.module.scss"
 
-export default function PhotoPeople({ photo }) {
+export default function PhotoFood({ photo }) {
   return (
     <div className={styles.container.posts}>
       <main className={styles.main}>
-        <h2>People</h2>
+        <h2>food</h2>
         {/* photo */}
         <div className={styles.photo_gallery}>
           {photo.map((photo) => (
             <div key={photo.id}>
               <Link href={`/photo/${photo.id}`}>
-                {photo.menu == "people" ? (
+                {photo.menu == "food" ? (
                   <>
                     <img src={photo.photo.url} />
                     <br />

@@ -31,7 +31,7 @@ export default function Home({ blog, category, photo }) {
               <Link href={`/photo/menu/people`}>people</Link>
             </li>
             <li>
-              <Link href={`/photo/food`}>food</Link>
+              <Link href={`/photo/menu/food`}>food</Link>
             </li>
           </ul>
         </div>

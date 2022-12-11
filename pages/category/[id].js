@@ -40,7 +40,9 @@ export default function CategoryId({ blog, photo }) {
             <div key={photo.id}>
               <img src={photo.photo.url} />
               <br />
-              {photo.figure}
+              <div className={styles.photo_figure}>
+                {photo.figure} / {photo.menu}
+              </div>
             </div>
           ))}
         </div>
