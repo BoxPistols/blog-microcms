@@ -20,3 +20,9 @@ a {
 ul > li {
   line-height: 1.8;
 }
+
+/* Gall */
+img.yarl__slide_image {
+  min-width: 100% !important;
+  min-height: 100%;
+}

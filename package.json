@@ -13,7 +13,9 @@
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sass": "^1.56.2"
+    "react-photo-album": "^2.0.2",
+    "sass": "^1.56.2",
+    "yet-another-react-lightbox": "^2.6.0"
   },
   "devDependencies": {
     "eslint": "8.29.0",

@@ -1,13 +1,25 @@
 // pages/photo/[id].js
 import Link from "next/link"
+import React from "react"
 import { client } from "../../../libs/client"
 import styles from "../../../styles/Home.module.scss"
+import Lightbox from "yet-another-react-lightbox"
+import "yet-another-react-lightbox/styles.css"
 
 export default function PhotoPeople({ photo }) {
+  const [open, setOpen] = React.useState(false)
+
   return (
     <div className={styles.container.posts}>
       <main className={styles.main}>
         <h2>People</h2>
+
+        <button type="button" onClick={() => setOpen(true)}>
+          Open Lightbox
+        </button>
+
+        <Lightbox open={open} close={() => setOpen(false)} slides />
+
         {/* photo */}
         <div className={styles.photo_gallery}>
           {photo.map((photo) => (
