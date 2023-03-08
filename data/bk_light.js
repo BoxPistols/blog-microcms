@@ -1,7 +1,7 @@
 // https://zenn.dev/kimura141899/articles/4f33b899cb0bca
 import { useState, useEffect } from "react" //mapメソッドを使用したいので初期値を[]に
 // import Lightbox from "yet-another-react-lightbox"
-import { YARL, Lightbox } from "yet-another-react-lightbox"
+import Lightbox from "yet-another-react-lightbox"
 import "yet-another-react-lightbox/styles.css"
 import { client } from "../../../libs/client"
 import PhotoAlbum from "react-photo-album"
@@ -121,7 +121,6 @@ w
         {/* {location.href} */}
       </div>
       {/*  */}
-      <YARL open={open} close={() => setOpen(false)} slides />
     </>
   )
 }

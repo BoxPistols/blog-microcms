@@ -106,6 +106,7 @@ const PhotoGallery = ({ photo }) => {
         <div style={{ display: "flex", padding: "2vw" }}>
           {photo.map((photo) => (
             <div key={photo.id}>
+              {/* eslint-disable @next/next/no-img-element */}
               <img src={photo.photo.url} width="200" />
             </div>
           ))}

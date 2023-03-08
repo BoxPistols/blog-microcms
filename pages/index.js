@@ -43,6 +43,7 @@ export default function Home({ blog, category, photo }) {
               {/* <Link href={`${photo.photo.url}`}> */}
               {/* <Link href={`photo/${photo.menu}`}> */}
               <Link href={`photo/${photo.id}`}>
+                {/* eslint-disable @next/next/no-img-element */}
                 <img src={photo.photo.url} />
                 <br />
                 <div className={styles.photo_figure}>
