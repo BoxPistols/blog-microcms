@@ -10,16 +10,20 @@ export default function PhotoPeople({ photo }) {
   const [open, setOpen] = React.useState(false);
   const [currentIdx, setCurrentIdx] = React.useState(0);
 
-  const photosPeople = photo.filter((p) => p.menu == "people");
+  const peoplePhotos = photo.filter((p) => p.menu == "people");
 
-  const slides = photosPeople.map((photoItem) => ({
-    src: photoItem.photo.url,
-  }));
-
-  const handleClick = (idx) => {
+  const handleOpen = (idx) => {
     setCurrentIdx(idx);
-    setOpen(true);
+    setTimeout(() => setOpen(true), 0);
+    console.log("Clicked image index: ", idx);
   };
+
+  // あらかじめフィルタリングした人物の写真をスライドとして使用します
+  // const slides = peoplePhotos.map((photo) => ({ src: photo.photo.url }));
+  const slides = peoplePhotos.map((photo) => ({
+    src: photo.photo.url,
+    caption: photo.figure,
+  }));
 
   return (
     <div className={styles.container.posts}>
@@ -32,14 +36,21 @@ export default function PhotoPeople({ photo }) {
           currentIdx={currentIdx}
         />
         <Masonry
-          breakpointCols={{ default: 3, 1100: 2, 700: 1 }}
+          breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
           className={styles.my_masonry_grid}
           columnClassName={styles.my_masonry_grid_column}
         >
-          {photosPeople.map((photoItem, idx) => (
-            <div key={photoItem.id} onClick={() => handleClick(idx)}>
-              <Link href={`/photo/${photoItem.id}`}>
-                <img src={photoItem.photo.url} alt="" />
+          {peoplePhotos.map((photo, idx) => (
+            <div key={photo.id}>
+              <Link href={`/photo/${photo.id}`}>
+                <img
+                  src={photo.photo.url}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleOpen(idx); // ここでidxを渡す
+                  }}
+                  alt=""
+                />
               </Link>
             </div>
           ))}
