@@ -2,39 +2,41 @@ import Link from "next/link";
 import React from "react";
 import { client } from "../../../libs/client";
 import styles from "../../../styles/Home.module.scss";
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 import Masonry from "react-masonry-css";
 
 export default function PhotoPeople({ photo }) {
-  const [open, setOpen] = React.useState(false);
-  const [currentIdx, setCurrentIdx] = React.useState(0);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [photoIndex, setPhotoIndex] = React.useState(0);
 
   const peoplePhotos = photo.filter((p) => p.menu == "people");
 
-  const handleOpen = (idx) => {
-    setCurrentIdx(idx);
-    setTimeout(() => setOpen(true), 0);
-    console.log("Clicked image index: ", idx);
-  };
+  const images = peoplePhotos.map((photo) => photo.photo.url); // 画像のURLの配列を作成
 
-  // あらかじめフィルタリングした人物の写真をスライドとして使用します
-  // const slides = peoplePhotos.map((photo) => ({ src: photo.photo.url }));
-  const slides = peoplePhotos.map((photo) => ({
-    src: photo.photo.url,
-    caption: photo.figure,
-  }));
+  const handleOpen = (idx) => {
+    setPhotoIndex(idx);
+    setIsOpen(true);
+  };
 
   return (
     <div className={styles.container.posts}>
       <main className={styles.main}>
         <h2>People</h2>
-        <Lightbox
-          open={open}
-          close={() => setOpen(false)}
-          slides={slides}
-          currentIdx={currentIdx}
-        />
+        {isOpen && (
+          <Lightbox
+            mainSrc={images[photoIndex]}
+            nextSrc={images[(photoIndex + 1) % images.length]}
+            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+            onCloseRequest={() => setIsOpen(false)}
+            onMovePrevRequest={() =>
+              setPhotoIndex((photoIndex + images.length - 1) % images.length)
+            }
+            onMoveNextRequest={() =>
+              setPhotoIndex((photoIndex + 1) % images.length)
+            }
+          />
+        )}
         <Masonry
           breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
           className={styles.my_masonry_grid}
