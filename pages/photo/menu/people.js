@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { client } from "../../../libs/client";
 import styles from "../../../styles/Home.module.scss";
 import Lightbox from "react-image-lightbox";
@@ -18,6 +18,15 @@ export default function PhotoPeople({ photo }) {
     setPhotoIndex(idx);
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    const imagesToPreload = peoplePhotos.map((photo) => photo.photo.url);
+
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [peoplePhotos]);
 
   return (
     <div className={styles.container.posts}>
@@ -45,6 +54,7 @@ export default function PhotoPeople({ photo }) {
           {peoplePhotos.map((photo, idx) => (
             <div key={photo.id}>
               <Link href={`/photo/${photo.id}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={photo.photo.url}
                   onClick={(event) => {
