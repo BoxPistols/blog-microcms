@@ -10,9 +10,13 @@ export default function PhotoPeople({ photo }) {
   const [open, setOpen] = React.useState(false);
   const [currentIdx, setCurrentIdx] = React.useState(0);
 
-  const peoplePhotos = photo.filter((p) => p.menu == "people");
+  const photosPeople = photo.filter((p) => p.menu == "people");
 
-  const handleOpen = (idx) => {
+  const slides = photosPeople.map((photoItem) => ({
+    src: photoItem.photo.url,
+  }));
+
+  const handleClick = (idx) => {
     setCurrentIdx(idx);
     setOpen(true);
   };
@@ -24,39 +28,22 @@ export default function PhotoPeople({ photo }) {
         <Lightbox
           open={open}
           close={() => setOpen(false)}
-          slides={photo
-            .filter((photo) => photo.menu == "people")
-            .map((photo) => ({ src: photo.photo.url }))}
+          slides={slides}
           currentIdx={currentIdx}
         />
-
         <Masonry
-          breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
+          breakpointCols={{ default: 3, 1100: 2, 700: 1 }}
           className={styles.my_masonry_grid}
           columnClassName={styles.my_masonry_grid_column}
         >
-          {photo.map(
-            (photo, idx) =>
-              photo.menu == "people" && (
-                <div key={photo.id}>
-                  <Link href={`/photo/${photo.id}`}>
-                    <div>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={photo.photo.url}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          handleOpen(idx);
-                        }}
-                        alt=""
-                      />
-                    </div>
-                  </Link>
-                </div>
-              )
-          )}{" "}
+          {photosPeople.map((photoItem, idx) => (
+            <div key={photoItem.id} onClick={() => handleClick(idx)}>
+              <Link href={`/photo/${photoItem.id}`}>
+                <img src={photoItem.photo.url} alt="" />
+              </Link>
+            </div>
+          ))}
         </Masonry>
-
         <Link className={styles.description} href="/">
           トップに戻る
         </Link>
