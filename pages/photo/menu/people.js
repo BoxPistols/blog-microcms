@@ -1,11 +1,10 @@
-// pages/photo/[id].js
 import Link from "next/link";
 import React from "react";
 import { client } from "../../../libs/client";
 import styles from "../../../styles/Home.module.scss";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import Image from "next/image";
+import Masonry from "react-masonry-css";
 
 export default function PhotoPeople({ photo }) {
   const [open, setOpen] = React.useState(false);
@@ -29,7 +28,11 @@ export default function PhotoPeople({ photo }) {
           currentIdx={currentIdx}
         />
 
-        <div className={styles.photo_gallery}>
+        <Masonry
+          breakpointCols={{ default: 3, 1100: 2, 700: 1 }}
+          className={styles.my_masonry_grid}
+          columnClassName={styles.my_masonry_grid_column}
+        >
           {photo.map((photo, idx) => (
             <div key={photo.id}>
               <Link href={`/photo/${photo.id}`}>
@@ -38,18 +41,12 @@ export default function PhotoPeople({ photo }) {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={photo.photo.url}
-                      // layout="fill"
-                      // objectFit="cover"
                       onClick={(event) => {
                         event.preventDefault();
                         handleOpen(idx);
                       }}
                       alt=""
                     />
-                    {/* <br />
-                    <div className={styles.photo_figure}>
-                      {photo.figure} / {photo.menu}
-                    </div> */}
                   </div>
                 ) : (
                   ``
@@ -57,7 +54,8 @@ export default function PhotoPeople({ photo }) {
               </Link>
             </div>
           ))}
-        </div>
+        </Masonry>
+
         <Link className={styles.description} href="/">
           トップに戻る
         </Link>
