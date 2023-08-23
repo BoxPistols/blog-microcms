@@ -34,32 +34,27 @@ export default function PhotoPeople({ photo }) {
             <div key={photo.id}>
               <Link href={`/photo/${photo.id}`}>
                 {photo.menu == "people" ? (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "300px",
-                      height: "300px",
-                    }}
-                  >
-                    <Image
+                  <div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={photo.photo.url}
-                      alt=""
-                      layout="fill"
-                      objectFit="cover"
+                      // layout="fill"
+                      // objectFit="cover"
                       onClick={(event) => {
                         event.preventDefault();
                         handleOpen(idx);
                       }}
-                    />{" "}
-                    <br />
+                      alt=""
+                    />
+                    {/* <br />
                     <div className={styles.photo_figure}>
                       {photo.figure} / {photo.menu}
-                    </div>
+                    </div> */}
                   </div>
                 ) : (
                   ``
                 )}
-              </Link>{" "}
+              </Link>
             </div>
           ))}
         </div>
