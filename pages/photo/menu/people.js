@@ -1,20 +1,29 @@
-// pages/photo/[id].js
 import Link from "next/link";
 import React from "react";
 import { client } from "../../../libs/client";
 import styles from "../../../styles/Home.module.scss";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import Image from "next/image";
+import Masonry from "react-masonry-css";
 
 export default function PhotoPeople({ photo }) {
   const [open, setOpen] = React.useState(false);
   const [currentIdx, setCurrentIdx] = React.useState(0);
 
+  const peoplePhotos = photo.filter((p) => p.menu == "people");
+
   const handleOpen = (idx) => {
     setCurrentIdx(idx);
-    setOpen(true);
+    setTimeout(() => setOpen(true), 0);
+    console.log("Clicked image index: ", idx);
   };
+
+  // あらかじめフィルタリングした人物の写真をスライドとして使用します
+  // const slides = peoplePhotos.map((photo) => ({ src: photo.photo.url }));
+  const slides = peoplePhotos.map((photo) => ({
+    src: photo.photo.url,
+    caption: photo.figure,
+  }));
 
   return (
     <div className={styles.container.posts}>
@@ -23,46 +32,29 @@ export default function PhotoPeople({ photo }) {
         <Lightbox
           open={open}
           close={() => setOpen(false)}
-          slides={photo
-            .filter((photo) => photo.menu == "people")
-            .map((photo) => ({ src: photo.photo.url }))}
+          slides={slides}
           currentIdx={currentIdx}
         />
-
-        <div className={styles.photo_gallery}>
-          {photo.map((photo, idx) => (
+        <Masonry
+          breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
+          className={styles.my_masonry_grid}
+          columnClassName={styles.my_masonry_grid_column}
+        >
+          {peoplePhotos.map((photo, idx) => (
             <div key={photo.id}>
               <Link href={`/photo/${photo.id}`}>
-                {photo.menu == "people" ? (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "300px",
-                      height: "300px",
-                    }}
-                  >
-                    <Image
-                      src={photo.photo.url}
-                      alt=""
-                      layout="fill"
-                      objectFit="cover"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        handleOpen(idx);
-                      }}
-                    />{" "}
-                    <br />
-                    <div className={styles.photo_figure}>
-                      {photo.figure} / {photo.menu}
-                    </div>
-                  </div>
-                ) : (
-                  ``
-                )}
-              </Link>{" "}
+                <img
+                  src={photo.photo.url}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleOpen(idx); // ここでidxを渡す
+                  }}
+                  alt=""
+                />
+              </Link>
             </div>
           ))}
-        </div>
+        </Masonry>
         <Link className={styles.description} href="/">
           トップに戻る
         </Link>

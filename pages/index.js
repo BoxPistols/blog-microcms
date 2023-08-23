@@ -1,7 +1,7 @@
-import Head from "next/head"
-import styles from "../styles/Home.module.scss"
-import { client } from "../libs/client"
-import Link from "next/link"
+import Head from "next/head";
+import styles from "../styles/Home.module.scss";
+import { client } from "../libs/client";
+import Link from "next/link";
 
 export default function Home({ blog, category, photo }) {
   return (
@@ -37,23 +37,21 @@ export default function Home({ blog, category, photo }) {
         </div>
         <hr />
         {/* photo */}
-        <div className={styles.photo_gallery}>
+        {/* <Link href={`${photo.photo.url}`}> */}
+        {/* <Link href={`photo/${photo.menu}`}> */}
+        {/* <div className={styles.photo_gallery}>
           {photo.map((photo) => (
             <div key={photo.id}>
-              {/* <Link href={`${photo.photo.url}`}> */}
-              {/* <Link href={`photo/${photo.menu}`}> */}
               <Link href={`photo/${photo.id}`}>
-                {/* eslint-disable @next/next/no-img-element */}
-                <img src={photo.photo.url} />
+                <img src={photo.photo.url} alt="" />
                 <br />
                 <div className={styles.photo_figure}>
                   {photo.figure} / {photo.menu}
                 </div>
               </Link>
-              {/* menu */}
             </div>
           ))}
-        </div>
+        </div> */}
         <hr />
         {/* blog */}
         <div className={styles.blog}>
@@ -75,17 +73,17 @@ export default function Home({ blog, category, photo }) {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
 // SSG
 export const getStaticProps = async () => {
   const data = await client.get({
     endpoint: "blogs",
-  })
-  const categoryData = await client.get({ endpoint: "categories" })
-  const photoData = await client.get({ endpoint: "photos" })
-  const menuData = await client.get({ endpoint: "photos" })
+  });
+  const categoryData = await client.get({ endpoint: "categories" });
+  const photoData = await client.get({ endpoint: "photos" });
+  const menuData = await client.get({ endpoint: "photos" });
 
   // console.log(data)
   return {
@@ -95,5 +93,5 @@ export const getStaticProps = async () => {
       photo: photoData.contents,
       menu: menuData.contents,
     },
-  }
-}
+  };
+};

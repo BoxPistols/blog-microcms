@@ -1,9 +1,9 @@
 .container {
-  padding: 0 25px;
+  margin: 0 auto;
 }
 
 .main {
-  padding: 4rem 0;
+  padding: 4%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,8 @@
   &_blog {
     display: block;
     width: 90%;
-    max-width: 800px;
+    max-width: 1280px;
+    margin: 0 auto;
     img {
       max-width: 100%;
     }
@@ -60,12 +61,12 @@
   margin-left: 0.5rem;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
-}
+// @media (max-width: 600px) {
+//   .grid {
+//     width: 100%;
+//     flex-direction: column;
+//   }
+// }
 
 .footer {
   display: flex;
@@ -91,22 +92,34 @@
     rgba(45, 65, 188, 0.1)
   );
 }
-
+// photo
 .photo {
   &_gallery {
-    display: flex;
-    // flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2vw;
+    // display: flex;
+    // // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    // flex-wrap: wrap;
+    // gap: 4px;
+
+    // display: grid;
+    // grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    // gap: 4px;
 
     img {
-      display: block;
+      // margin: 0 auto;
+      // padding: 5px;
       width: 100%;
+      // display: inline-block;
       max-width: 400px;
       border-radius: 0.5vw;
       box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5), 0 12px 24px rgba(0, 0, 0, 0.1);
+
+      // responsive
+      // TODO: make this a mixin
+      @media (max-width: 600px) {
+        max-width: 100%;
+      }
     }
   }
   &_figure {
@@ -114,4 +127,21 @@
     margin-top: -1vw;
     color: dimgray;
   }
+}
+
+.my_masonry_grid {
+  display: flex;
+  margin-left: -8px;
+  width: auto;
+  gap: 0px;
+}
+
+.my_masonry_grid img {
+  max-width: 100%;
+  margin-bottom: 4px;
+}
+
+.my_masonry_grid_column {
+  padding-left: 8px;
+  background-clip: padding-box;
 }
