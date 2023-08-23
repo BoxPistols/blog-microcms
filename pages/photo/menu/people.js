@@ -10,6 +10,8 @@ export default function PhotoPeople({ photo }) {
   const [open, setOpen] = React.useState(false);
   const [currentIdx, setCurrentIdx] = React.useState(0);
 
+  const peoplePhotos = photo.filter((p) => p.menu == "people");
+
   const handleOpen = (idx) => {
     setCurrentIdx(idx);
     setOpen(true);
@@ -29,31 +31,30 @@ export default function PhotoPeople({ photo }) {
         />
 
         <Masonry
-          breakpointCols={{ default: 3, 1100: 2, 700: 1 }}
+          breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
           className={styles.my_masonry_grid}
           columnClassName={styles.my_masonry_grid_column}
         >
-          {photo.map((photo, idx) => (
-            <div key={photo.id}>
-              <Link href={`/photo/${photo.id}`}>
-                {photo.menu == "people" ? (
-                  <div>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo.photo.url}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        handleOpen(idx);
-                      }}
-                      alt=""
-                    />
-                  </div>
-                ) : (
-                  ``
-                )}
-              </Link>
-            </div>
-          ))}
+          {photo.map(
+            (photo, idx) =>
+              photo.menu == "people" && (
+                <div key={photo.id}>
+                  <Link href={`/photo/${photo.id}`}>
+                    <div>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={photo.photo.url}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          handleOpen(idx);
+                        }}
+                        alt=""
+                      />
+                    </div>
+                  </Link>
+                </div>
+              )
+          )}{" "}
         </Masonry>
 
         <Link className={styles.description} href="/">

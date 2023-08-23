@@ -37,23 +37,21 @@ export default function Home({ blog, category, photo }) {
         </div>
         <hr />
         {/* photo */}
-        <div className={styles.photo_gallery}>
+        {/* <Link href={`${photo.photo.url}`}> */}
+        {/* <Link href={`photo/${photo.menu}`}> */}
+        {/* <div className={styles.photo_gallery}>
           {photo.map((photo) => (
             <div key={photo.id}>
-              {/* <Link href={`${photo.photo.url}`}> */}
-              {/* <Link href={`photo/${photo.menu}`}> */}
               <Link href={`photo/${photo.id}`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={photo.photo.url} alt="" />
                 <br />
                 <div className={styles.photo_figure}>
                   {photo.figure} / {photo.menu}
                 </div>
               </Link>
-              {/* menu */}
             </div>
           ))}
-        </div>
+        </div> */}
         <hr />
         {/* blog */}
         <div className={styles.blog}>
