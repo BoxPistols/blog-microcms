@@ -13,6 +13,7 @@
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-image-lightbox": "^5.1.4",
     "react-masonry-css": "^1.0.16",
     "react-photo-album": "^2.0.2",
     "sass": "^1.56.2",
