@@ -1,28 +1,40 @@
-import React, { useState } from "react";
-import { client } from "../../../libs/client";
-import styles from "../../../styles/Home.module.scss";
-// Lightbox.module.scss
-import Masonry from "react-masonry-css";
-import Link from "next/link";
+import React, { useState, useCallback } from "react"
+import { client } from "../../../libs/client"
+import Masonry from "react-masonry-css"
+import Link from "next/link"
+import CustomLightbox from "../../../components/CustomLightbox"
+import styles from "../../../styles/Home.module.scss"
 
 export default function PhotoPeople({ photo }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [currentIdx, setCurrentIdx] = React.useState(0);
+  const peoplePhotos = photo.filter((p) => p.menu == "people")
 
-  const peoplePhotos = photo.filter((p) => p.menu == "people");
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentIdx, setCurrentIdx] = useState(0)
 
   const handleOpen = (idx) => {
-    setCurrentIdx(idx);
-    setIsOpen(true);
-  };
+    setIsOpen(true)
+    setCurrentIdx(idx)
+  }
 
-  const handlePrev = () => {
-    setCurrentIdx((currentIdx - 1 + peoplePhotos.length) % peoplePhotos.length);
-  };
+  const handleClose = () => {
+    setIsOpen(false)
+  }
 
-  const handleNext = () => {
-    setCurrentIdx((currentIdx + 1) % peoplePhotos.length);
-  };
+  const handlePrev = useCallback(() => {
+    if (currentIdx > 0) {
+      setCurrentIdx((prevIdx) => prevIdx - 1)
+    } else {
+      setCurrentIdx(peoplePhotos.length - 1)
+    }
+  }, [currentIdx, peoplePhotos])
+
+  const handleNext = useCallback(() => {
+    if (currentIdx < peoplePhotos.length - 1) {
+      setCurrentIdx((prevIdx) => prevIdx + 1)
+    } else {
+      setCurrentIdx(0)
+    }
+  }, [currentIdx, peoplePhotos])
 
   return (
     <div className={styles.container.posts}>
@@ -40,66 +52,32 @@ export default function PhotoPeople({ photo }) {
           ))}
         </Masonry>
         {isOpen && (
-          <div className={styles.lightbox}>
-            <img src={peoplePhotos[currentIdx].photo.url} alt="" />
-            <button className={styles.prevButton} onClick={handlePrev}>
-              <svg width="30" height="30" viewBox="0 0 30 30">
-                <path
-                  d="M20 5 L10 15 L20 25"
-                  stroke="white"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            </button>
-            <button className={styles.nextButton} onClick={handleNext}>
-              <svg width="30" height="30" viewBox="0 0 30 30">
-                <path
-                  d="M10 5 L20 15 L10 25"
-                  stroke="white"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            </button>
-            <button
-              className={styles.closeButton}
-              onClick={() => setIsOpen(false)}
-            >
-              <svg width="30" height="30" viewBox="0 0 30 30">
-                <path
-                  d="M5 5 L25 25"
-                  stroke="white"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="M25 5 L5 25"
-                  stroke="white"
-                  strokeWidth="2"
-                  fill="none"
-                />
-              </svg>
-            </button>
-          </div>
+          <CustomLightbox
+            photos={peoplePhotos.map((p) => p.photo.url)}
+            isOpen={isOpen}
+            currentIdx={currentIdx}
+            handleClose={handleClose}
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
         )}
         <div className={styles.description}>
           <Link href="/">トップに戻る</Link>
         </div>
       </main>
     </div>
-  );
+  )
 }
 
 // データをテンプレートに受け渡す部分の処理を記述します
 export const getStaticProps = async (context) => {
   const photoData = await client.get({
     endpoint: "photos",
-  });
+  })
 
   return {
     props: {
       photo: photoData.contents,
     },
-  };
-};
+  }
+}
