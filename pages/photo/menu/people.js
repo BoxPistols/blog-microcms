@@ -1,81 +1,76 @@
-import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { client } from "../../../libs/client";
 import styles from "../../../styles/Home.module.scss";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+// Lightbox.module.scss
 import Masonry from "react-masonry-css";
+import Link from "next/link";
 
 export default function PhotoPeople({ photo }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [photoIndex, setPhotoIndex] = React.useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const peoplePhotos = photo.filter((p) => p.menu == "people");
 
-  const images = peoplePhotos.map((photo) => photo.photo.url); // 画像のURLの配列を作成
-
-  const handleOpen = (idx) => {
-    setPhotoIndex(idx);
+  const handleOpen = (index) => {
     setIsOpen(true);
+    setCurrentImageIndex(index);
   };
 
-  useEffect(() => {
-    const imagesToPreload = peoplePhotos.map((photo) => photo.photo.url);
+  const handleClose = () => {
+    setIsOpen(false);
+    setCurrentImageIndex(0);
+  };
 
-    imagesToPreload.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, [peoplePhotos]);
+  const handleNext = () => {
+    setCurrentImageIndex((currentImageIndex + 1) % peoplePhotos.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentImageIndex(
+      (currentImageIndex + peoplePhotos.length - 1) % peoplePhotos.length
+    );
+  };
 
   return (
     <div className={styles.container.posts}>
       <main className={styles.main}>
         <h2>People</h2>
-        {isOpen && (
-          <Lightbox
-            mainSrc={images[photoIndex]}
-            nextSrc={images[(photoIndex + 1) % images.length]}
-            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-            onCloseRequest={() => setIsOpen(false)}
-            onMovePrevRequest={() =>
-              setPhotoIndex((photoIndex + images.length - 1) % images.length)
-            }
-            onMoveNextRequest={() =>
-              setPhotoIndex((photoIndex + 1) % images.length)
-            }
-          />
-        )}
         <Masonry
           breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
           className={styles.my_masonry_grid}
           columnClassName={styles.my_masonry_grid_column}
         >
-          {peoplePhotos.map((photo, idx) => (
-            <div key={photo.id}>
-              <Link href={`/photo/${photo.id}`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={photo.photo.url}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    handleOpen(idx); // ここでidxを渡す
-                  }}
-                  alt=""
-                />
-              </Link>
+          {peoplePhotos.map((p, idx) => (
+            <div key={p.id}>
+              <img src={p.photo.url} onClick={() => handleOpen(idx)} alt="" />
             </div>
           ))}
         </Masonry>
-        <Link className={styles.description} href="/">
-          トップに戻る
-        </Link>
+        {isOpen && (
+          <div className={styles.lightbox}>
+            <div className={styles.lightboxContent}>
+              <img src={peoplePhotos[currentImageIndex].photo.url} alt="" />
+              <button className={styles.closeButton} onClick={handleClose}>
+                ×
+              </button>
+              <button className={styles.prevButton} onClick={handlePrev}>
+                ←
+              </button>
+              <button className={styles.nextButton} onClick={handleNext}>
+                →
+              </button>
+            </div>
+          </div>
+        )}
+        <div className={styles.description}>
+          <Link href="/">トップに戻る</Link>
+        </div>
       </main>
     </div>
   );
 }
 
-// // データをテンプレートに受け渡す部分の処理を記述します
+// データをテンプレートに受け渡す部分の処理を記述します
 export const getStaticProps = async (context) => {
   const photoData = await client.get({
     endpoint: "photos",
