@@ -1,9 +1,11 @@
+// file name: Lightbox.module.scss
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
 
+//  LightBox
 .lightbox {
   position: fixed;
   top: 0;

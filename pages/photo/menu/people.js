@@ -1,35 +1,40 @@
-import React, { useState } from "react";
-import { client } from "../../../libs/client";
-import styles from "../../../styles/Home.module.scss";
-// Lightbox.module.scss
-import Masonry from "react-masonry-css";
-import Link from "next/link";
+import React, { useState, useCallback } from "react"
+import { client } from "../../../libs/client"
+import Masonry from "react-masonry-css"
+import Link from "next/link"
+import CustomLightbox from "../../../components/CustomLightbox"
+import styles from "../../../styles/Home.module.scss"
 
 export default function PhotoPeople({ photo }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const peoplePhotos = photo.filter((p) => p.menu == "people")
 
-  const peoplePhotos = photo.filter((p) => p.menu == "people");
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentIdx, setCurrentIdx] = useState(0)
 
-  const handleOpen = (index) => {
-    setIsOpen(true);
-    setCurrentImageIndex(index);
-  };
+  const handleOpen = (idx) => {
+    setIsOpen(true)
+    setCurrentIdx(idx)
+  }
 
   const handleClose = () => {
-    setIsOpen(false);
-    setCurrentImageIndex(0);
-  };
+    setIsOpen(false)
+  }
 
-  const handleNext = () => {
-    setCurrentImageIndex((currentImageIndex + 1) % peoplePhotos.length);
-  };
+  const handlePrev = useCallback(() => {
+    if (currentIdx > 0) {
+      setCurrentIdx((prevIdx) => prevIdx - 1)
+    } else {
+      setCurrentIdx(peoplePhotos.length - 1)
+    }
+  }, [currentIdx, peoplePhotos])
 
-  const handlePrev = () => {
-    setCurrentImageIndex(
-      (currentImageIndex + peoplePhotos.length - 1) % peoplePhotos.length
-    );
-  };
+  const handleNext = useCallback(() => {
+    if (currentIdx < peoplePhotos.length - 1) {
+      setCurrentIdx((prevIdx) => prevIdx + 1)
+    } else {
+      setCurrentIdx(0)
+    }
+  }, [currentIdx, peoplePhotos])
 
   return (
     <div className={styles.container.posts}>
@@ -47,38 +52,32 @@ export default function PhotoPeople({ photo }) {
           ))}
         </Masonry>
         {isOpen && (
-          <div className={styles.lightbox}>
-            <div className={styles.lightboxContent}>
-              <img src={peoplePhotos[currentImageIndex].photo.url} alt="" />
-              <button className={styles.closeButton} onClick={handleClose}>
-                ×
-              </button>
-              <button className={styles.prevButton} onClick={handlePrev}>
-                ←
-              </button>
-              <button className={styles.nextButton} onClick={handleNext}>
-                →
-              </button>
-            </div>
-          </div>
+          <CustomLightbox
+            photos={peoplePhotos.map((p) => p.photo.url)}
+            isOpen={isOpen}
+            currentIdx={currentIdx}
+            handleClose={handleClose}
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
         )}
         <div className={styles.description}>
           <Link href="/">トップに戻る</Link>
         </div>
       </main>
     </div>
-  );
+  )
 }
 
 // データをテンプレートに受け渡す部分の処理を記述します
 export const getStaticProps = async (context) => {
   const photoData = await client.get({
     endpoint: "photos",
-  });
+  })
 
   return {
     props: {
       photo: photoData.contents,
     },
-  };
-};
+  }
+}

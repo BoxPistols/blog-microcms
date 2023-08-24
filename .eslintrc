@@ -1,4 +1,6 @@
 {
+  // next.jsのルールを継承し、core-web-vitalsのルールを追加し、no-img-elementのルールを無効化し、その他のルールはデフォルトのままにする
+  "extends": ["next", "next/core-web-vitals"],
   "rules": {
     "@next/next/no-img-element": "off"
   }
