@@ -1,3 +1,4 @@
+// file name: pages/photo/menu/people.js
 import React, { useState, useCallback } from "react"
 import { client } from "../../../libs/client"
 import Masonry from "react-masonry-css"
@@ -13,10 +14,13 @@ export default function PhotoPeople({ photo }) {
 
   const handleOpen = (idx) => {
     setIsOpen(true)
+    document.body.style.overflow = "hidden"
     setCurrentIdx(idx)
   }
 
   const handleClose = () => {
+    // console.log("Closing lightbox")
+    document.body.style.overflow = "unset"
     setIsOpen(false)
   }
 
@@ -41,7 +45,8 @@ export default function PhotoPeople({ photo }) {
       <main className={styles.main}>
         <h2>People</h2>
         <Masonry
-          breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
+          // breakpointCols={{ default: 5, 1100: 2, 700: 1 }}
+          breakpointCols={{ default: 5, 960: 2 }}
           className={styles.my_masonry_grid}
           columnClassName={styles.my_masonry_grid_column}
         >

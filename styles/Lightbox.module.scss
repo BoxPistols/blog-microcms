@@ -30,37 +30,74 @@
   max-height: 100%;
 }
 
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
+.closeButton,
+.prevButton,
+.nextButton {
   border: none;
   color: #fff;
-  font-size: 24px;
   cursor: pointer;
+  // background: rgba(0, 0, 0, 0.5); /* 薄い背景色 */
+}
+
+.closeButton svg path,
+.prevButton svg path,
+.nextButton svg path {
+  transition: 0.3s;
+}
+.closeButton:hover svg path,
+.prevButton:hover svg path,
+.nextButton:hover svg path {
+  stroke: #e06426;
+  transition: 0.3s;
+}
+
+.closeButton svg,
+.prevButton svg,
+.nextButton svg {
+  pointer-events: none; /* SVGのクリックイベントを無効化 */
+}
+
+.closeButton {
+  position: absolute;
+  top: -45px;
+  right: -45px;
+  font-size: 24px;
+  background: transparent;
 }
 
 .prevButton {
   position: absolute;
-  left: 10px;
+  left: -65px; /* 位置の調整 */
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
   background: none;
-  border: none;
-  cursor: pointer;
-  color: #fff;
 }
 
 .nextButton {
   position: absolute;
-  right: 10px;
+  right: -65px; /* 位置の調整 */
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
   background: none;
-  border: none;
-  cursor: pointer;
-  color: #fff;
+}
+
+/* モバイルデバイス向けのスタイル */
+@media (max-width: 960px) {
+  .prevButton,
+  .nextButton {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .closeButton {
+    top: -45px;
+    right: 0px;
+  }
+  .prevButton {
+    left: 10px;
+  }
+  .nextButton {
+    right: 10px;
+  }
 }
