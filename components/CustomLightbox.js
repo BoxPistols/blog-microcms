@@ -1,6 +1,6 @@
 // file name: CustomLightbox.js
 import React, { useEffect, useCallback } from "react"
-import styles from "../styles/LightBox.module.scss"
+import styles from "../styles/Lightbox.module.scss"
 
 function CustomLightbox({
   photos,

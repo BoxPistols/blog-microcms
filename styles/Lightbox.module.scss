@@ -59,15 +59,15 @@
 
 .closeButton {
   position: absolute;
-  top: -45px;
-  right: -45px;
+  top: -40px;
+  right: -40px;
   font-size: 24px;
   background: transparent;
 }
 
 .prevButton {
   position: absolute;
-  left: -65px; /* 位置の調整 */
+  left: -50px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
@@ -76,7 +76,7 @@
 
 .nextButton {
   position: absolute;
-  right: -65px; /* 位置の調整 */
+  right: -50px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
@@ -92,12 +92,12 @@
   }
   .closeButton {
     top: -45px;
-    right: 0px;
+    right: -30px;
   }
   .prevButton {
-    left: 10px;
+    left: -10px;
   }
   .nextButton {
-    right: 10px;
+    right: -10px;
   }
 }
