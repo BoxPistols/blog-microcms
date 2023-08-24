@@ -6,29 +6,22 @@ import Masonry from "react-masonry-css";
 import Link from "next/link";
 
 export default function PhotoPeople({ photo }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [currentIdx, setCurrentIdx] = React.useState(0);
 
   const peoplePhotos = photo.filter((p) => p.menu == "people");
 
-  const handleOpen = (index) => {
+  const handleOpen = (idx) => {
+    setCurrentIdx(idx);
     setIsOpen(true);
-    setCurrentImageIndex(index);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-    setCurrentImageIndex(0);
-  };
-
-  const handleNext = () => {
-    setCurrentImageIndex((currentImageIndex + 1) % peoplePhotos.length);
   };
 
   const handlePrev = () => {
-    setCurrentImageIndex(
-      (currentImageIndex + peoplePhotos.length - 1) % peoplePhotos.length
-    );
+    setCurrentIdx((currentIdx - 1 + peoplePhotos.length) % peoplePhotos.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIdx((currentIdx + 1) % peoplePhotos.length);
   };
 
   return (
@@ -48,18 +41,46 @@ export default function PhotoPeople({ photo }) {
         </Masonry>
         {isOpen && (
           <div className={styles.lightbox}>
-            <div className={styles.lightboxContent}>
-              <img src={peoplePhotos[currentImageIndex].photo.url} alt="" />
-              <button className={styles.closeButton} onClick={handleClose}>
-                ×
-              </button>
-              <button className={styles.prevButton} onClick={handlePrev}>
-                ←
-              </button>
-              <button className={styles.nextButton} onClick={handleNext}>
-                →
-              </button>
-            </div>
+            <img src={peoplePhotos[currentIdx].photo.url} alt="" />
+            <button className={styles.prevButton} onClick={handlePrev}>
+              <svg width="30" height="30" viewBox="0 0 30 30">
+                <path
+                  d="M20 5 L10 15 L20 25"
+                  stroke="white"
+                  strokeWidth="2"
+                  fill="none"
+                />
+              </svg>
+            </button>
+            <button className={styles.nextButton} onClick={handleNext}>
+              <svg width="30" height="30" viewBox="0 0 30 30">
+                <path
+                  d="M10 5 L20 15 L10 25"
+                  stroke="white"
+                  strokeWidth="2"
+                  fill="none"
+                />
+              </svg>
+            </button>
+            <button
+              className={styles.closeButton}
+              onClick={() => setIsOpen(false)}
+            >
+              <svg width="30" height="30" viewBox="0 0 30 30">
+                <path
+                  d="M5 5 L25 25"
+                  stroke="white"
+                  strokeWidth="2"
+                  fill="none"
+                />
+                <path
+                  d="M25 5 L5 25"
+                  stroke="white"
+                  strokeWidth="2"
+                  fill="none"
+                />
+              </svg>
+            </button>
           </div>
         )}
         <div className={styles.description}>
